@@ -182,11 +182,11 @@ export default memo(function Dashboard({
   }, [cli]);
 
   //SLIDER
-  useEffect(() => {
+  const sslider = useCallback(() => {
     setTimeout(() => {
       clifwd();
     }, 100);
-  }, []);
+  }, [cli]);
 
   return (
     <>
