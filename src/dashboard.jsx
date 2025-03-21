@@ -36,109 +36,6 @@ const typerr = (e, callBack1, callBack2) => {
 const Objecter = (item, callBack) => {
   callBack(item);
 };
-//SLIDER
-const cliprv = useCallback(
-  (cli) => {
-    if (cli == 1) {
-      document.getElementById(`sslide8`).style.animationName = "gotoleft";
-    } else {
-      document.getElementById(`sslide${cli - 1}`).style.animationName =
-        "gotoleft";
-    }
-  },
-  [cli]
-);
-const clinxt = useCallback(
-  (cli) => {
-    if (cli == 7) {
-      document.getElementById(`sslide${cli}`).style.animationName = "midtoleft";
-      document.getElementById(`sslide${cli + 1}`).style.animationName =
-        "righttomid";
-      document.getElementById(`sslide${1}`).style.animationName =
-        "comefromright";
-    } else if (cli == 8) {
-      document.getElementById(`sslide${cli}`).style.animationName = "midtoleft";
-      document.getElementById(`sslide${1}`).style.animationName = "righttomid";
-      document.getElementById(`sslide${2}`).style.animationName =
-        "comefromright";
-    } else {
-      document.getElementById(`sslide${cli}`).style.animationName = "midtoleft";
-      document.getElementById(`sslide${cli + 1}`).style.animationName =
-        "righttomid";
-      document.getElementById(`sslide${cli + 2}`).style.animationName =
-        "comefromright";
-    }
-  },
-  [cli]
-);
-const nclincr = useCallback(
-  (cli, callBack) => {
-    if (cli == 8) {
-      callBack(1);
-    } else {
-      callBack(cli + 1);
-    }
-  },
-  [cli]
-);
-const xcliprv = useCallback(
-  (cli) => {
-    if (cli == 8) {
-      document.getElementById(`sslide1`).style.animationName = "gotoright";
-    } else {
-      document.getElementById(`sslide${cli + 1}`).style.animationName =
-        "gotoright";
-    }
-  },
-  [cli]
-);
-const xclinxt = useCallback(
-  (cli) => {
-    if (cli == 1) {
-      document.getElementById(`sslide7`).style.animationName = "comefromleft";
-      document.getElementById(`sslide8`).style.animationName = "lefttomid";
-      document.getElementById(`sslide1`).style.animationName = "midtoright";
-    } else if (cli == 2) {
-      document.getElementById(`sslide8`).style.animationName = "comefromleft";
-      document.getElementById(`sslide1`).style.animationName = "lefttomid";
-      document.getElementById(`sslide2`).style.animationName = "midtoright";
-    } else {
-      document.getElementById(`sslide${cli - 2}`).style.animationName =
-        "comefromleft";
-      document.getElementById(`sslide${cli - 1}`).style.animationName =
-        "lefttomid";
-      document.getElementById(`sslide${cli}`).style.animationName =
-        "midtoright";
-    }
-  },
-  [cli]
-);
-const nclidcr = useCallback(
-  (cli, callBack) => {
-    if (cli == 1) {
-      callBack(8);
-    } else {
-      callBack(cli - 1);
-    }
-  },
-  [cli]
-);
-const clifwd = useCallback(
-  (cli, callBack) => {
-    cliprv(cli);
-    clinxt(cli);
-    nclincr(cli, callBack);
-  },
-  [cli]
-);
-const clibwd = useCallback(
-  (cli, callBack) => {
-    xcliprv(cli);
-    xclinxt(cli);
-    nclidcr(cli, callBack);
-  },
-  [cli]
-);
 export default memo(function Dashboard({
   notify,
   changeName,
@@ -204,11 +101,90 @@ export default memo(function Dashboard({
       i.value = "";
     });
   }, []);
+  //SLIDER
+  const cliprv = useCallback(() => {
+    if (cli == 1) {
+      document.getElementById(`sslide8`).style.animationName = "gotoleft";
+    } else {
+      document.getElementById(`sslide${cli - 1}`).style.animationName =
+        "gotoleft";
+    }
+  }, [cli]);
+  const clinxt = useCallback(() => {
+    if (cli == 7) {
+      document.getElementById(`sslide${cli}`).style.animationName = "midtoleft";
+      document.getElementById(`sslide${cli + 1}`).style.animationName =
+        "righttomid";
+      document.getElementById(`sslide${1}`).style.animationName =
+        "comefromright";
+    } else if (cli == 8) {
+      document.getElementById(`sslide${cli}`).style.animationName = "midtoleft";
+      document.getElementById(`sslide${1}`).style.animationName = "righttomid";
+      document.getElementById(`sslide${2}`).style.animationName =
+        "comefromright";
+    } else {
+      document.getElementById(`sslide${cli}`).style.animationName = "midtoleft";
+      document.getElementById(`sslide${cli + 1}`).style.animationName =
+        "righttomid";
+      document.getElementById(`sslide${cli + 2}`).style.animationName =
+        "comefromright";
+    }
+  }, [cli]);
+  const nclincr = useCallback(() => {
+    if (cli == 8) {
+      setCli(1);
+    } else {
+      setCli(cli + 1);
+    }
+  }, [cli]);
+  const xcliprv = useCallback(() => {
+    if (cli == 8) {
+      document.getElementById(`sslide1`).style.animationName = "gotoright";
+    } else {
+      document.getElementById(`sslide${cli + 1}`).style.animationName =
+        "gotoright";
+    }
+  }, [cli]);
+  const xclinxt = useCallback(() => {
+    if (cli == 1) {
+      document.getElementById(`sslide7`).style.animationName = "comefromleft";
+      document.getElementById(`sslide8`).style.animationName = "lefttomid";
+      document.getElementById(`sslide1`).style.animationName = "midtoright";
+    } else if (cli == 2) {
+      document.getElementById(`sslide8`).style.animationName = "comefromleft";
+      document.getElementById(`sslide1`).style.animationName = "lefttomid";
+      document.getElementById(`sslide2`).style.animationName = "midtoright";
+    } else {
+      document.getElementById(`sslide${cli - 2}`).style.animationName =
+        "comefromleft";
+      document.getElementById(`sslide${cli - 1}`).style.animationName =
+        "lefttomid";
+      document.getElementById(`sslide${cli}`).style.animationName =
+        "midtoright";
+    }
+  }, [cli]);
+  const nclidcr = useCallback(() => {
+    if (cli == 1) {
+      setCli(8);
+    } else {
+      setCli(cli - 1);
+    }
+  }, [cli]);
+  const clifwd = useCallback(() => {
+    cliprv();
+    clinxt();
+    nclincr();
+  }, [cli]);
+  const clibwd = useCallback(() => {
+    xcliprv();
+    xclinxt();
+    nclidcr();
+  }, [cli]);
 
   //SLIDER
-  const sslider = useCallback(() => {
+  useEffect(() => {
     setTimeout(() => {
-      clifwd(cli, setCli);
+      clifwd();
     }, 100);
   }, []);
 
