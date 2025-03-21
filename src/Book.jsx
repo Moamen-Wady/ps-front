@@ -75,7 +75,7 @@ export default memo(function Book({ notify, getResvs, dummy }) {
                       loading="lazy"
                       className="assetimg"
                       src="/pst.webp"
-                      alt=""
+                      alt="ps"
                     />
                   </div>
                 </Link>

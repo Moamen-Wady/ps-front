@@ -230,7 +230,7 @@ export default memo(function Dashboard({
               className="homebtn"
               onClick={() => clifwd(cli, setCli)}
             >
-              <img loading="eager" src="/l.webp" alt=" " />
+              <img loading="eager" src="/l.webp" alt="l" />
             </button>
             {all?.[type]
               ?.sort((a, b) => a.num - b.num)
@@ -265,7 +265,7 @@ export default memo(function Dashboard({
               className="homebtn"
               onClick={() => clibwd(cli, setCli)}
             >
-              <img loading="eager" src="/r.webp" alt=" " />
+              <img loading="eager" src="/r.webp" alt="r" />
             </button>
           </div>
         </div>

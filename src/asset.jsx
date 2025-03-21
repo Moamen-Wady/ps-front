@@ -128,7 +128,12 @@ export default memo(function Asset({
   return (
     <>
       <div className="hicont">
-        <img loading="eager" src="/logoiw.webp" alt="" className="headerimg" />
+        <img
+          loading="eager"
+          src="/logoiw.webp"
+          alt="logo"
+          className="headerimg"
+        />
       </div>
       <h1 className="h1">Unlock Your Potential </h1>
       <div className="options">
