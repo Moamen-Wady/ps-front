@@ -63,7 +63,7 @@ export default memo(function Dashboard({
   const [monitor, setMonitor] = useState(0);
   const monitorCallBack = useCallback(() => {
     setMonitor((prev) => prev + 1);
-  }, [monitor]);
+  }, []);
 
   useEffect(() => {
     let t = document.querySelectorAll(".tab2");
