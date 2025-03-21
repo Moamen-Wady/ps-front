@@ -109,7 +109,7 @@ export default memo(function Asset({
         dummy,
         clear,
         0,
-        notify,
+        notify
       );
     }
   }, [
@@ -128,7 +128,7 @@ export default memo(function Asset({
   return (
     <>
       <div className="hicont">
-        <img src="/logoiw.webp" alt="" className="headerimg" />
+        <img loading="eager" src="/logoiw.webp" alt="" className="headerimg" />
       </div>
       <h1 className="h1">Unlock Your Potential </h1>
       <div className="options">

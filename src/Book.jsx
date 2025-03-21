@@ -10,9 +10,12 @@ export default memo(function Book({ notify, getResvs, dummy }) {
   }, [dummy, getResvs, notify]);
   const [all, setAll] = useState([]);
   const [type, setType] = useState("ps");
-  const typerr = useCallback((e) => {
-    setType(e.target.slot);
-  }, []);
+  const typerr = useCallback(
+    (e) => {
+      setType(e.target.slot);
+    },
+    [type]
+  );
   return (
     <main>
       <h1>Welcome, Gamer...</h1>
@@ -68,7 +71,12 @@ export default memo(function Book({ notify, getResvs, dummy }) {
                     <h4 className="h4">
                       {type.toString() + " no. " + item.num}
                     </h4>
-                    <img className="assetimg" src="/pst.webp" alt="" />
+                    <img
+                      loading="lazy"
+                      className="assetimg"
+                      src="/pst.webp"
+                      alt=""
+                    />
                   </div>
                 </Link>
               );
