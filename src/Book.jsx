@@ -21,7 +21,7 @@ export default memo(function Book({ notify, getResvs, dummy }) {
       <h1>Welcome, Gamer...</h1>
       <h1>
         <i className="rnb">Are</i> <i className="rnb">You</i>
-        <i className="rnb">Ready</i>?
+        <i className="rnb"> Ready</i>?
       </h1>
       <h3 className="h3">Choose Your Desired Game & Room</h3>
       <div className="fulltablecont">
