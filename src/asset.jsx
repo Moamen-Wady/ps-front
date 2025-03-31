@@ -1,4 +1,5 @@
 import { useState, useEffect, memo, useCallback } from "react";
+import { useParams } from "react-router-dom";
 const timePeriods = [
   "12:00",
   "12:30",
@@ -48,19 +49,10 @@ export default memo(function Asset({
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [disabled, setDisabled] = useState(true);
-  let href = window.location.href;
-  let sliced = href.split("/book/");
-  let infoarr = sliced[1].split("/");
-  let type = infoarr[0];
-  let num = infoarr[1];
 
-  useEffect(() => {
-    if (tp.length == 0) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  }, [tp.length]);
+  const { type, num } = useParams();
+  console.log(type, num);
+  useEffect(() => setDisabled(tp.length === 0), [tp.length]);
 
   useEffect(() => {
     getObject(type, num, setObject, notify);

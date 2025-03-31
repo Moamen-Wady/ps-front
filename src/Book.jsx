@@ -12,7 +12,7 @@ export default memo(function Book({ notify, getResvs, dummy }) {
   const [type, setType] = useState("ps");
   const typerr = useCallback(
     (e) => {
-      setType(e.target.slot);
+      setType(e.target.getAttribute("data-type"));
     },
     [type]
   );
@@ -29,41 +29,41 @@ export default memo(function Book({ notify, getResvs, dummy }) {
           <div
             className="tab"
             onClick={typerr}
-            slot="ps"
+            data-type="ps"
             style={type == "ps" ? { backgroundColor: "rgb(0, 255, 13)" } : {}}
           >
-            <h2 className="h2" slot="ps">
+            <h2 className="h2" data-type="ps">
               play station
             </h2>
           </div>
           <div
             className="tab"
             onClick={typerr}
-            slot="pool"
+            data-type="pool"
             style={type == "pool" ? { backgroundColor: "rgb(0, 255, 13)" } : {}}
           >
-            <h2 className="h2" slot="pool">
+            <h2 className="h2" data-type="pool">
               pool
             </h2>
           </div>
           <div
             className="tab"
             onClick={typerr}
-            slot="ping"
+            data-type="ping"
             style={type == "ping" ? { backgroundColor: "rgb(0, 255, 13)" } : {}}
           >
-            <h2 className="h2" slot="ping">
+            <h2 className="h2" data-type="ping">
               ping pong
             </h2>
           </div>
         </div>
         <div className="assets">
-          {all[type]
-            ?.sort((a, b) => a.num - b.num)
+          {[...(all[type] || [])]
+            .sort((a, b) => a.num - b.num)
             .map((item) => {
               return (
                 <Link
-                  to={"/book/" + type + "/" + item.num}
+                  to={`/book/${type}/${item.num}`}
                   className="asset"
                   key={item.num}
                 >

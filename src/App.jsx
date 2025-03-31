@@ -189,7 +189,7 @@ function App() {
               }
             />
             <Route
-              path="/book/:type/:no"
+              path="/book/:type/:num"
               element={
                 <Asset
                   notify={notify}
