@@ -51,7 +51,6 @@ export default memo(function Asset({
   const [disabled, setDisabled] = useState(true);
 
   const { type, num } = useParams();
-  console.log(type, num);
   useEffect(() => setDisabled(tp.length === 0), [tp.length]);
 
   useEffect(() => {
@@ -70,7 +69,6 @@ export default memo(function Asset({
   }, []);
 
   const nameCheck = useCallback(async () => {
-    console.log(date, tp, name);
     if (date == "" || name == "" || tp.length == 0) {
       notify("error", "please choose date, times and enter your name");
       return;
