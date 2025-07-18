@@ -6,15 +6,21 @@ import "./styles.css";
 import api from "./api";
 import Loading from "./Loading";
 import RouteChangeHandler from "./RouteChangeHandler";
+import type { cafeAsset, notify } from "./types";
 
 const Home = lazy(() => import("./Home"));
 const Book = lazy(() => import("./Book"));
 const Asset = lazy(() => import("./asset"));
 const Dashboard = lazy(() => import("./dashboard"));
-function dummy() {
+
+const dummy = () => {
   return;
-}
-const getResvs = async (callBack, monitorCallBack, alertCallBack) => {
+};
+const getResvs = async (
+  callBack: React.Dispatch<React.SetStateAction<cafeAsset[]>>,
+  monitorCallBack: () => void,
+  alertCallBack: notify
+) => {
   try {
     const { data } = await api.get("/getall");
 
@@ -28,23 +34,38 @@ const getResvs = async (callBack, monitorCallBack, alertCallBack) => {
     alertCallBack("error", "network error");
   }
 };
-const getObject = async (type, num, callBack, alertCallBack) => {
-  try {
-    const { data } = await api.get(`/${type}/${num}`);
+const getAsset = async (
+  type: string | undefined,
+  num: string | undefined,
+  callBack: React.Dispatch<React.SetStateAction<cafeAsset[]>>,
+  alertCallBack: notify
+) => {
+  if (type === "ps" || type === "pool" || type === "ping") {
+    try {
+      const { data } = await api.get(`/${type}/${num}`);
 
-    if (data?.sts === "ok") {
-      callBack(data.object);
-    } else {
+      if (data?.sts === "ok") {
+        callBack(data.object);
+      } else {
+        alertCallBack("error", "network error");
+      }
+    } catch {
       alertCallBack("error", "network error");
     }
-  } catch {
-    alertCallBack("error", "network error");
-  }
+  } else alertCallBack("error", "Room Not Found, Use Available Rooms");
 };
-const changeName = (e, callBack) => {
+const changeName = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  callBack: React.Dispatch<React.SetStateAction<string>>
+) => {
   callBack(e.target.value);
 };
-const onCheck = (e, tp, item, callBack) => {
+const onCheck = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  tp: string[],
+  item: string,
+  callBack: React.Dispatch<React.SetStateAction<string[]>>
+) => {
   if (e.target.checked) {
     e.target.checked = true;
     callBack([...tp, item]);
@@ -53,11 +74,15 @@ const onCheck = (e, tp, item, callBack) => {
     callBack(tp.filter((currItem) => currItem !== item));
   }
 };
-const changeDate = (e, callBack, clearCallBack) => {
+const changeDate = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  callBack: React.Dispatch<React.SetStateAction<string>>,
+  clearCallBack: () => void
+) => {
   callBack(e.target.value);
   clearCallBack();
 };
-const cellColor = (object, period, date) => {
+const cellColor = (object: cafeAsset, period: string, date: string) => {
   if (object?.Reservations?.[date]?.yellow?.includes(period)) {
     return "yellow";
   } else if (object?.Reservations?.[date]?.red?.includes(period)) {
@@ -66,7 +91,7 @@ const cellColor = (object, period, date) => {
     return "limegreen";
   }
 };
-const cellCheck = (object, period, date) => {
+const cellCheck = (object: cafeAsset, period: string, date: string) => {
   if (object?.Reservations?.[date]?.yellow?.includes(period)) {
     return "none";
   } else if (object?.Reservations?.[date]?.red?.includes(period)) {
@@ -76,17 +101,17 @@ const cellCheck = (object, period, date) => {
   }
 };
 const changer = async (
-  type,
-  num,
-  name,
-  tp,
-  date,
-  color,
-  callBack,
-  monitorCallBack,
-  clearCallBack,
-  admin,
-  alertCallBack
+  type: string | undefined,
+  num: string | undefined,
+  name: string,
+  tp: string[],
+  date: string,
+  color: "red" | "green" | "yellow",
+  callBack: React.Dispatch<React.SetStateAction<cafeAsset[]>>,
+  monitorCallBack: () => void,
+  clearCallBack: () => void,
+  admin: boolean,
+  alertCallBack: notify
 ) => {
   try {
     const { data } = await api.put(`/${type}/${color[0]}`, {
@@ -99,22 +124,14 @@ const changer = async (
     });
 
     if (data?.sts === "ok") {
-      if (admin == 1) {
-        await getResvs(callBack, monitorCallBack, alertCallBack);
-      } else {
-        await getObject(type, num, callBack, alertCallBack);
-      }
+      await getResvs(callBack, monitorCallBack, alertCallBack);
       clearCallBack();
       alertCallBack("success", "Your Reservation Was Saved");
       return;
     }
 
     if (data?.error === "tp") {
-      if (admin == 1) {
-        await getResvs(callBack, monitorCallBack, alertCallBack);
-      } else {
-        await getObject(type, num, callBack, alertCallBack);
-      }
+      await getResvs(callBack, monitorCallBack, alertCallBack);
       clearCallBack();
       alertCallBack(
         "error",
@@ -142,7 +159,10 @@ function App() {
     }
     window.scrollTo(0, 0);
   }, []);
-  const notify = (e, msg) => {
+  const notify = (
+    e: "info" | "success" | "warning" | "error" | "default",
+    msg: string
+  ) => {
     toast[e](msg, {
       position: "top-right",
       autoClose: 2200,
@@ -184,7 +204,6 @@ function App() {
                   cellCheck={cellCheck}
                   changer={changer}
                   getResvs={getResvs}
-                  getObject={getObject}
                 />
               }
             />
@@ -199,7 +218,7 @@ function App() {
                   cellColor={cellColor}
                   cellCheck={cellCheck}
                   changer={changer}
-                  getObject={getObject}
+                  getAsset={getAsset}
                   getResvs={getResvs}
                   dummy={dummy}
                 />

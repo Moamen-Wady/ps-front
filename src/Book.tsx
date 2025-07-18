@@ -1,21 +1,27 @@
 import { useEffect, useState, memo, useCallback } from "react";
 import { Outlet, Link } from "react-router-dom";
-export default memo(function Book({ notify, getResvs, dummy }) {
+import type { cafeAsset, BookPageProps } from "./types";
+export default memo(function Book({ notify, getResvs, dummy }: BookPageProps) {
   useEffect(() => {
-    getResvs(setAll, dummy, notify);
+    if (getResvs) {
+      getResvs(setAll, dummy, notify);
+    }
     notify(
       "info",
       "Free version, Loading may take a minute to finish on the first load"
     );
   }, [dummy, getResvs, notify]);
-  const [all, setAll] = useState([]);
+
+  const [all, setAll] = useState<cafeAsset[]>([]);
   const [type, setType] = useState("ps");
+
   const typerr = useCallback(
-    (e) => {
-      setType(e.target.getAttribute("data-type"));
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      setType((e.target as HTMLElement).getAttribute("data-type") || "");
     },
     [type]
   );
+
   return (
     <main>
       <h1>Welcome, Gamer...</h1>

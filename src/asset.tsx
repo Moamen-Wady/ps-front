@@ -1,5 +1,7 @@
 import { useState, useEffect, memo, useCallback } from "react";
 import { useParams } from "react-router-dom";
+import type { cafeAsset, AssetPageProps } from "./types";
+
 const timePeriods = [
   "12:00",
   "12:30",
@@ -27,6 +29,11 @@ const timePeriods = [
   "11:30",
 ];
 
+//IMPORTANT, DON'T FORGET TO ADD
+const dateStr = "2025-07-18";
+const formattedDate = dateStr.replace(/-/g, "_");
+console.log(formattedDate); // Output: "2025_07_18"
+
 export default memo(function Asset({
   notify,
   changeName,
@@ -35,17 +42,15 @@ export default memo(function Asset({
   cellColor,
   cellCheck,
   changer,
-  getObject,
+  getAsset,
   getResvs,
   dummy,
-}) {
+}: AssetPageProps) {
   //API CALLS
-  const [all, setall] = useState({});
-  const [object, setObject] = useState({
-    Reservations: {},
-    num: 0,
-  });
-  const [tp, setTp] = useState([]);
+  const [asset, setAsset] = useState<cafeAsset[]>([{
+    num: "",
+  }]);
+  const [tp, setTp] = useState<string[]>([]);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [disabled, setDisabled] = useState(true);
@@ -54,16 +59,22 @@ export default memo(function Asset({
   useEffect(() => setDisabled(tp.length === 0), [tp.length]);
 
   useEffect(() => {
-    getObject(type, num, setObject, notify);
-  }, [getObject, type, num, notify]);
+    getAsset(type, num, setAsset, notify);
+  }, [getAsset, type, num, notify]);
 
   const clear = useCallback(() => {
     setTp([]);
     setName("");
-    document.querySelectorAll("input.tpchb").forEach((i) => {
+    (
+      document.querySelectorAll("input.tpchb") as NodeListOf<HTMLInputElement>
+    ).forEach((i) => {
       i.checked = false;
     });
-    document.querySelectorAll("input#nameInput").forEach((i) => {
+    (
+      document.querySelectorAll(
+        "input#nameInput"
+      ) as NodeListOf<HTMLInputElement>
+    ).forEach((i) => {
       i.value = "";
     });
   }, []);
@@ -76,12 +87,12 @@ export default memo(function Asset({
     //the next filter is for malfunctions or possible walkarounds around the code
     let tpff = tp.filter((i) => {
       return (
-        object?.Reservations?.[date]?.yellow?.includes(i) ||
-        object?.Reservations?.[date]?.red?.includes(i)
+        asset[0]?.Reservations?.[date]?.yellow?.includes(i) ||
+        asset[0]?.Reservations?.[date]?.red?.includes(i)
       );
     });
     if (tpff.length > 0) {
-      await getObject(type, num, setObject, notify);
+      await getAsset(type, num, setAsset, notify);
       notify(
         "warning",
         "Chosen time periods are reserved, please rebook your desired times"
@@ -95,10 +106,10 @@ export default memo(function Asset({
         tp,
         date,
         "yellow",
-        setObject,
+        setAsset,
         dummy,
         clear,
-        0,
+        false,
         notify
       );
     }
@@ -106,7 +117,7 @@ export default memo(function Asset({
     name,
     tp,
     date,
-    object,
+    asset[0],
     getResvs,
     type,
     num,
@@ -147,7 +158,7 @@ export default memo(function Asset({
                   className="container"
                   key={period}
                   style={{
-                    pointerEvents: cellCheck(object, period, date),
+                    pointerEvents: cellCheck(asset[0], period, date),
                     backgroundColor: "whitesmoke",
                   }}
                 >
@@ -158,15 +169,15 @@ export default memo(function Asset({
                     disabled={date == "" ? true : false}
                     onChange={(e) => onCheck(e, tp, period, setTp)}
                     style={{
-                      pointerEvents: cellCheck(object, period, date),
-                      backgroundColor: cellColor(object, period, date),
+                      pointerEvents: cellCheck(asset[0], period, date),
+                      backgroundColor: cellColor(asset[0], period, date),
                     }}
                   />
                   <span
                     className="checkmark"
                     style={{
-                      pointerEvents: cellCheck(object, period, date),
-                      backgroundColor: cellColor(object, period, date),
+                      pointerEvents: cellCheck(asset[0], period, date),
+                      backgroundColor: cellColor(asset[0], period, date),
                     }}
                   ></span>
                 </label>
