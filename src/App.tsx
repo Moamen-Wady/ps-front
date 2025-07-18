@@ -124,19 +124,19 @@ const changer = async (
     });
 
     if (data?.sts === "ok") {
-      await getResvs(callBack, monitorCallBack, alertCallBack);
       clearCallBack();
       alertCallBack("success", "Your Reservation Was Saved");
+      await getResvs(callBack, monitorCallBack, alertCallBack);
       return;
     }
 
     if (data?.error === "tp") {
-      await getResvs(callBack, monitorCallBack, alertCallBack);
       clearCallBack();
       alertCallBack(
         "error",
         "We are sorry, the time periods were just reserved by another user, please try again."
       );
+      await getResvs(callBack, monitorCallBack, alertCallBack);
       return;
     }
 
