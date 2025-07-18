@@ -47,9 +47,11 @@ export default memo(function Asset({
   dummy,
 }: AssetPageProps) {
   //API CALLS
-  const [asset, setAsset] = useState<cafeAsset[]>([{
-    num: "",
-  }]);
+  const [asset, setAsset] = useState<cafeAsset[]>([
+    {
+      num: "",
+    },
+  ]);
   const [tp, setTp] = useState<string[]>([]);
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
@@ -110,7 +112,8 @@ export default memo(function Asset({
         dummy,
         clear,
         false,
-        notify
+        notify,
+        getAsset
       );
     }
   }, [
@@ -126,6 +129,8 @@ export default memo(function Asset({
     changer,
     dummy,
   ]);
+  console.log(asset);
+  console.log(date);
   return (
     <>
       <div className="hicont">

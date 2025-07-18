@@ -154,7 +154,8 @@ export default memo(function Dashboard({
                             monitorCallBack,
                             clear,
                             true,
-                            notify
+                            notify,
+                            getResvs
                           )
                         }
                         style={{ display: "inline" }}
@@ -175,7 +176,8 @@ export default memo(function Dashboard({
                             monitorCallBack,
                             clear,
                             true,
-                            notify
+                            notify,
+                            getResvs
                           )
                         }
                         style={{ display: "inline" }}
@@ -196,7 +198,8 @@ export default memo(function Dashboard({
                             monitorCallBack,
                             clear,
                             true,
-                            notify
+                            notify,
+                            getResvs
                           )
                         }
                         style={{ display: "inline" }}
@@ -267,7 +270,8 @@ export default memo(function Dashboard({
               monitorCallBack,
               clear,
               true,
-              notify
+              notify,
+              getResvs
             )
           }
           style={{ display: "inline" }}
@@ -288,7 +292,8 @@ export default memo(function Dashboard({
               monitorCallBack,
               clear,
               true,
-              notify
+              notify,
+              getResvs
             )
           }
           style={{ display: "inline" }}

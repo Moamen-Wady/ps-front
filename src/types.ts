@@ -27,7 +27,7 @@ export type notify = (
 
 type dummy = () => void;
 
-type getResvs = (
+export type getResvs = (
   callBack: React.Dispatch<React.SetStateAction<cafeAsset[]>>,
   monitorCallBack: () => void,
   alertCallBack: (
@@ -36,7 +36,7 @@ type getResvs = (
   ) => void
 ) => Promise<void>;
 
-type getAsset = (
+export type getAsset = (
   type: string | undefined,
   num: string | undefined,
   callBack: React.Dispatch<React.SetStateAction<cafeAsset[]>>,
@@ -84,7 +84,8 @@ type changer = (
   monitorCallBack: () => void,
   clearCallBack: () => void,
   admin: boolean,
-  alertCallBack: notify
+  alertCallBack: notify,
+  getCallBack: getResvs | getAsset
 ) => Promise<void>;
 
 export type BookPageProps = {

@@ -6,7 +6,7 @@ import "./styles.css";
 import api from "./api";
 import Loading from "./Loading";
 import RouteChangeHandler from "./RouteChangeHandler";
-import type { cafeAsset, notify } from "./types";
+import type { cafeAsset, getAsset, getResvs, notify } from "./types";
 
 const Home = lazy(() => import("./Home"));
 const Book = lazy(() => import("./Book"));
@@ -45,7 +45,7 @@ const getAsset = async (
       const { data } = await api.get(`/${type}/${num}`);
 
       if (data?.sts === "ok") {
-        callBack(data.object);
+        callBack([data.object]);
       } else {
         alertCallBack("error", "network error");
       }
@@ -111,7 +111,8 @@ const changer = async (
   monitorCallBack: () => void,
   clearCallBack: () => void,
   admin: boolean,
-  alertCallBack: notify
+  alertCallBack: notify,
+  getCallBack: getResvs | getAsset
 ) => {
   try {
     const { data } = await api.put(`/${type}/${color[0]}`, {
@@ -124,19 +125,25 @@ const changer = async (
     });
 
     if (data?.sts === "ok") {
+      getCallBack == getResvs
+        ? await getResvs(callBack, monitorCallBack, alertCallBack)
+        : await getAsset(type, num, callBack, alertCallBack);
       clearCallBack();
       alertCallBack("success", "Your Reservation Was Saved");
-      await getResvs(callBack, monitorCallBack, alertCallBack);
+
       return;
     }
 
     if (data?.error === "tp") {
+      getCallBack == getResvs
+        ? await getResvs(callBack, monitorCallBack, alertCallBack)
+        : await getAsset(type, num, callBack, alertCallBack);
+
       clearCallBack();
       alertCallBack(
         "error",
         "We are sorry, the time periods were just reserved by another user, please try again."
       );
-      await getResvs(callBack, monitorCallBack, alertCallBack);
       return;
     }
 
